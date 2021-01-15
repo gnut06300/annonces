@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{# {% form_theme form with ['bootstrap_4_horizontal_layout.html.twig',_self] %} #}
+
+{% form_theme form with ['bootstrap_4_layout.html.twig'] %} 
+ {# déja mis dans le fichier config/packages/twig.yaml ajouter form_themes: ['bootstrap_4_horizontal_layout.html.twig']#}
+{% block title %}Modification du profil{% endblock %}
+
+	{% block body %}
+		<div class="container mt-3">
+			
+
+			<h1 class="text-center">Modification du profil {{user.firstName}} {{user.lastName}}</h1>
+			{{form_start(form)}}
+			{{ form_row(form.email, {'label':false,'attr':{'placeholder':"Entrer votre email"}}) }} 
+			{{ form_row(form.picture, {'label':false,'attr':{'placeholder':"Adresse d'une image"}}) }}
+			{{ form_row(form.introduction, {'label':false,'attr':{'placeholder':"Entrer l'introduction"}}) }} 
+			{{ form_row(form.description, {'label':false,'attr':{'placeholder':"Description détaillée"}}) }} 
+			 
+			<button type="submit" class="btn btn-success">Modifier mon profil</button>
+			{{ form_end(form) }}
+
+		</div>
+		
+	{% endblock %}

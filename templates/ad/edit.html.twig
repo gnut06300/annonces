@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{# {% form_theme form with ['bootstrap_4_horizontal_layout.html.twig',_self] %} #}
+
+{% form_theme form with ['bootstrap_4_layout.html.twig',_self] %} 
+ {# déja mis dans le fichier config/packages/twig.yaml ajouter form_themes: ['bootstrap_4_horizontal_layout.html.twig']#}
+{% block title %}Modification d'une annonce{% endblock %}
+
+	{% block body %}
+		{#{{dump(ad)}}#}
+		<div class="text-center">
+		{% for image in ad.imageUploads %}
+		{#{{dump(image)}}#}
+
+			
+				<img id="{{image.id}}" src="{{image.url}}" style="width:150px"/>
+
+		
+		{% endfor %}
+		</div>
+		<div class="container mt-3">
+			
+
+			<h1 class="text-center">Modification de l'annonce {{ad.title}}</h1>
+			{{form_start(form)}}
+			{{ form_row(form.tableau_id)}}
+			{{ form_row(form.title, {'label':false,'attr':{'placeholder':"Entrer le titre de l'annonce"}}) }} 
+			{{ form_row(form.introduction, {'label':false,'attr':{'placeholder':"Description globale"}}) }} 
+			{{ form_row(form.content, {'label':false,'attr':{'placeholder':"Description détaillée"}}) }} 
+			{{ form_row(form.coverImage, {'label':false,'attr':{'placeholder':"Adresse d'une image"}}) }} 
+			{{ form_row(form.rooms, {'label':false,'attr':{'placeholder':"Entrer le nombre de chambre(s)",'min':1}}) }} 
+			{{ form_row(form.price, {'label':false,'attr':{'placeholder':"Indiquez le prix par nuit"}}) }}
+			{{form_row(form.images,{'label':false})}} {#ajouter dans AnnonceType#}
+			<button type="button" id="add_image" class="btn btn-success">Ajouter une image</button><br><br>
+			{{form_row(form.file)}}
+			<button type="submit" class="btn btn-success">Modifier l'annonce</button>
+			{{ form_end(form) }}
+
+		</div>
+		
+	{% endblock %}
+	{% block _annonce_images_entry_row %} {#on trouve annonce_images en faisant F12 #}
+		{#{{dump(form)}}#}
+		<div class="row" id="{{id}}">
+			<div class="col">
+				{{form_row(form.url,{'label':false,'attr':{'placeholder':"Entrer une image"}}) }}
+			</div>
+			<div class="col">
+				{{form_row(form.caption,{'label':false,'attr':{'placeholder':"Entrer une légende"}}) }}
+			</div>
+			<div class="col-2">
+				<button type="button" class="btn btn-danger del_image" data-block="{{id}}">X</button>
+			</div>
+
+		</div>
+	{% endblock %}
+	{% block javascripts %}
+		<script type="text/javascript" src="/js/ad.js"></script>
+		<script>
+		$("img").click(function(event){
+			$('#'+ event.target.id).remove();
+			var precedent = $('#annonce_tableau_id').val();
+			$('#annonce_tableau_id').val(precedent +','+ event.target.id);
+
+		})
+		</script>
+
+	{% endblock %}
